@@ -63,19 +63,22 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Recipe Name</th>
-                    <th>Ingredients</th>
-                    <th>Instructions</th>
-                    <th>Actions</th>
+                    <th>Recipe</th>
+                    <th>Source or curriculum</th>
+                    <th>Cource</th>
+                    <th>Main Ingredients</th>
+                    <th>Prep Time (include cooking time)</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 {% for recipe in recipes %}
-                <tr>
-                    <td>{{ recipe[0] }}</td>
+                <tr><td>{{ recipe[0] }}</td>
                     <td>{{ recipe[1] }}</td>
-                    <td>{{ recipe[2] }}</td>
+                    <td>{{ recipe[1] }}</td>
                     <td>{{ recipe[3] }}</td>
+                    <td>{{ recipe[4] }}</td>
+                    <td>{{ recipe[5] }}</td>
                     <td>
                         <form action="/delete/{{ recipe[0] }}" method="post">
                             <button type="submit">Delete</button>
@@ -92,8 +95,3 @@
     </div>
 </body>
 </html>
-
-
-
-
-

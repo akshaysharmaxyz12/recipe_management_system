@@ -71,42 +71,49 @@ def index():
 @app.route('/add', methods=['GET', 'POST'])
 @login_required
 def add_recipe():
-    if request.method == 'POST':
-        recipe_name = request.form['Recipe']
-        ingredients = request.form['Main Ingredients']
-        source = request.form['Source or curriculum']
-        query = "INSERT INTO `recipe sharing platform` (Recipe, `Main Ingredients`, `Source or curriculum`) VALUES (%s, %s, %s)"
-        cursor.execute(query, (recipe_name, ingredients, source))
-        conn.commit()
-        return redirect(url_for('index'))
-    return render_template('add.html')
+    try:
+        if request.method == 'POST':
+            recipe_name = request.form['Recipe']
+            ingredients = request.form['Main Ingredients']
+            source = request.form['Source or curriculum']
+            query = "INSERT INTO `recipe sharing platform` (Recipe, `Main Ingredients`, `Source or curriculum`) VALUES (%s, %s, %s)"
+            cursor.execute(query, (recipe_name, ingredients, source))
+            conn.commit()
+            return redirect(url_for('index'))
+        return render_template('add.html')
+    except Exception as e:
+        error_message = str(e)
+        return render_template('add.html', error_message=error_message)
 
 
 # Delete recipe route - deletes a recipe
-@app.route('/delete/<int:Recipe>', methods=['POST'])
+@app.route('/delete/<int:id>', methods=['POST'])
 @login_required
-def delete_recipe(recipe):
-    query = "DELETE FROM `recipe sharing platform` WHERE Recipe = %s"
-    cursor.execute(query, (recipe,))
+def delete_recipe(id):
+    query = "DELETE FROM `recipe sharing platform` WHERE id = %s"
+    cursor.execute(query, (id,))
     conn.commit()
     return redirect(url_for('index'))
 
 # Edit recipe route - displays form to edit a recipe
-@app.route('/edit/<int:recipe_id>', methods=['GET', 'POST'])
+@app.route('/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
-def edit_recipe(recipe_id):
-    if request.method == 'POST':
-        new_recipe_name = request.form['Recipe']
-        new_ingredients = request.form['Main Ingredients']
-        new_instructions = request.form['Source or curriculum']
-        query = "UPDATE `recipe sharing platform` SET Recipe = %s, Main Ingredients = %s, Source or curriculum = %s WHERE Recipe = %s"
-        cursor.execute(query, (new_recipe_name, new_ingredients, new_instructions, recipe_id))
-        conn.commit()
-        return redirect(url_for('index'))
-    cursor.execute("SELECT * FROM `recipe sharing platform` WHERE Recipe = %s", (recipe_id,))
-    recipe = cursor.fetchone()
-    return render_template('edit.html', recipe=recipe)
-
+def edit_recipe(id):
+    try:
+        if request.method == 'POST':
+            new_recipe_name = request.form['Recipe']
+            new_ingredients = request.form['Main Ingredients']
+            new_instructions = request.form['Source or curriculum']
+            query = "UPDATE `recipe sharing platform` SET Recipe = %s, `Main Ingredients` = %s, `Source or curriculum` = %s WHERE id = %s"
+            cursor.execute(query, (new_recipe_name, new_ingredients, new_instructions, id))
+            conn.commit()
+            return redirect(url_for('index'))
+        cursor.execute("SELECT * FROM `recipe sharing platform` WHERE id = %s", (id,))
+        recipe = cursor.fetchone()
+        return render_template('edit.html', recipe=recipe)
+    except Exception as e:
+        error_message = str(e)
+        return render_template('edit.html', error_message=error_message)
 # Login route
 @app.route('/', methods=['GET', 'POST'])
 def login():

@@ -54,7 +54,7 @@
 <body>
     <div class="container">
         <h1>Add New Recipe</h1>
-        <form action="/add" method="post">
+        <form id="addForm" action="/add" method="post">
             <label for="Recipe">Recipe</label><br>
             <input type="text" id="Recipe" name="Recipe" required><br>
             <label for="MainIngredients">Ingredients:</label><br>
@@ -64,5 +64,15 @@
             <button type="submit">Add Recipe</button>
         </form>
     </div>
+
+    <script>
+        // Get the error message if it exists
+        let errorMessage = "{{ error_message }}";
+
+        // If error message exists, display it as a pop-up
+        if (errorMessage) {
+            alert(errorMessage);
+        }
+    </script>
 </body>
 </html>
