@@ -7,6 +7,7 @@ import requests
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Change this to a secret key of your choice
+url="https://fnec.cornell.edu/for-participants/recipe-table/"
 
 # Connect to the database
 conn = mysql.connector.connect(
@@ -50,6 +51,19 @@ def scrape_and_add_data(url):
     else:
         print(f"Error: Request failed with status code {response.status_code}")
         return False
+
+def api_call(url):
+    exists_api_hit = "SELECT url FROM `api call` WHERE url = %s"
+    cursor.execute(exists_api_hit, (url,))
+    get_data = cursor.fetchall()  # Fetch the results of the SELECT query
+    if not get_data:
+        query = "INSERT INTO `api call` (url, `response`) VALUES (%s, %s)" 
+        cursor.execute(query, (url, "success"))
+        conn.commit()
+        scrape_and_add_data(url)
+
+api_call(url)
+
 
 # Check if user is logged in
 def login_required(f):
