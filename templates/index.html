@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Sharing Platform</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .add-btn {
+            display: block;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .add-btn a {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .add-btn a:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Recipes</h1>
+        <!-- Add New Recipe button -->
+        <div class="add-btn">
+            <a href="/add">Add New Recipe</a>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Recipe</th>
+                    <th>Source or curriculum</th>
+                    <th>Cource</th>
+                    <th>Main Ingredients</th>
+                    <th>Prep Time (include cooking time)</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for recipe in recipes %}
+                <tr><td>{{ recipe[0] }}</td>
+                    <td>{{ recipe[1] }}</td>
+                    <td>{{ recipe[1] }}</td>
+                    <td>{{ recipe[3] }}</td>
+                    <td>{{ recipe[4] }}</td>
+                    <td>{{ recipe[5] }}</td>
+                    <td>
+                        <form action="/delete/{{ recipe[0] }}" method="post">
+                            <button type="submit">Delete</button>
+                        </form>
+
+                        <form action="/edit/{{ recipe[0] }}" method="get">
+                            <button class="edit-btn" type="submit">Edit</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
