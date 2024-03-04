@@ -14,6 +14,7 @@ This is a web-based Recipe Management System built with Flask and MySQL.
 - HTML
 - CSS (Bootstrap for styling)
 - JavaScript
+- Beautiful soup
 
 ## Setup Instructions
 
